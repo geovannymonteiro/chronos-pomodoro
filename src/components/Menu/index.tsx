@@ -1,14 +1,22 @@
-import { HistoryIcon, HouseIcon, SettingsIcon, SunIcon } from 'lucide-react';
+import { HistoryIcon, HouseIcon, Moon, MoonIcon, SettingsIcon, SunIcon } from 'lucide-react';
 import styles from './styeles.module.css';
 import { useState, useEffect } from 'react';
 
 type AvailableThemes = 'dark' | 'light';
 
 export function Menu() {
-  const [theme, setTheme] = useState<AvailableThemes>('dark');
+  const [theme, setTheme] = useState<AvailableThemes>(()=>{
+    const storageTheme = localStorage.getItem('theme') as AvailableThemes || 'dark';
+    return storageTheme;
+  });
+
+  const nextThemeIcon = {
+    dark: <SunIcon />,
+    light:<MoonIcon/>,
+  }
 
   function handleThemeChange(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault(); // Não segue o link
+    event.preventDefault(); 
    
 
     setTheme(prevTheme=>{
@@ -17,27 +25,15 @@ export function Menu() {
     })
     
   }
-  //  useEffect(()=>{
-  //   console.log('useEffect sem dependências',Date.now());
-  // });//Executado em toda renderização
-
-  //  useEffect(()=>{
-  //   console.log('useEffect com array deps vazio',Date.now());
-  // }, []);//Executado apenas na montagem do componente pela primeira vez
-
+ 
 
   useEffect(()=>{
-    console.log('Theme mudou', theme,Date.now());
     document.documentElement.setAttribute('data-theme', theme);
-
-  return ()=>{
-    console.log('Olha,este componente será atualizado');
-  };
-  },[theme]); //Executado toda vez que a variável theme for atualizada
+    localStorage.setItem('theme', theme);
+  },[theme]);
 
   return (
     <nav className={styles.menu}>
-      <h1>{theme}</h1>
       <a className={styles.menuLink} href='#' aria-label='Ir para a Home' title='Ir para a Home'>
         <HouseIcon />
       </a>
@@ -51,7 +47,7 @@ export function Menu() {
       </a>
       <a className={styles.menuLink} href='#' aria-label='Mudar Tema' title='Mudar Tema'
       onClick={handleThemeChange}>
-        <SunIcon />
+         {nextThemeIcon[theme]}
       </a>
     </nav>
   );
