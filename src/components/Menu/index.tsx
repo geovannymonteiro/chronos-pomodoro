@@ -1,4 +1,4 @@
-import { HistoryIcon, HouseIcon, Moon, MoonIcon, SettingsIcon, SunIcon } from 'lucide-react';
+import { HistoryIcon, HouseIcon,  MoonIcon,  SettingsIcon, SunIcon } from 'lucide-react';
 import styles from './styeles.module.css';
 import { useState, useEffect } from 'react';
 
@@ -12,7 +12,7 @@ export function Menu() {
 
   const nextThemeIcon = {
     dark: <SunIcon />,
-    light:<MoonIcon/>,
+    light: <MoonIcon />,
   }
 
   function handleThemeChange(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
